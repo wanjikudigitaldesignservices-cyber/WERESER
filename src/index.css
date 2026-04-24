@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-sisu-black: #0A0A0A;
+  --color-sisu-gold: #C9A84C;
+  --color-sisu-red: #8B1A1A;
+  --color-sisu-grey: #2E2E2E;
+  --color-sisu-white: #F0EDE4;
+  --color-sisu-sky-top: #1A1A2E;
+  --color-sisu-sky-bot: #3D2B1F;
+  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-mono: "Share Tech Mono", "Courier New", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-sisu-black text-sisu-white font-mono overflow-x-hidden cursor-none selection:bg-sisu-gold selection:text-black;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-sisu-white uppercase;
+  }
+  
+  /* Make sure default pointer is hidden where custom cursor is active */
+  @media (min-width: 768px) {
+    * { cursor: none !important; }
+  }
+}
+
+@layer utilities {
+  .noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    mix-blend-mode: normal;
+  }
+
+  .vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.9) 100%);
+    z-index: 10;
+  }
+
+  .gold-tint {
+    position: relative;
+  }
+  .gold-tint::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #C9A84C;
+    mix-blend-mode: multiply;
+    opacity: 0.4;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .gold-tint:hover::after {
+    opacity: 0.2;
+  }
+  
+  .stencil-btn {
+    @apply relative overflow-hidden bg-transparent border border-sisu-gold px-6 py-3 font-mono text-sisu-white uppercase tracking-[4px] transition-all duration-500 cursor-none;
+  }
+  .stencil-btn:hover {
+    @apply bg-sisu-gold text-black;
+  }
+
+  .custom-cursor {
+    cursor: crosshair;
+  }
+}
+
+/* Custom Scrollbar for non-lenis environments */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9A84C;
+}
+
+/* Base Animations */
+.animate-fade-in {
+  animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.flash-burst {
+  animation: flashBurst 0.4s ease-out forwards;
+}
+
+@keyframes flashBurst {
+  0% { background-color: #F0EDE4; opacity: 1; }
+  100% { background-color: #0A0A0A; opacity: 0; }
+}
